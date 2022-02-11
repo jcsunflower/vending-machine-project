@@ -37,10 +37,6 @@ public class VendingMachineCLI {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
-                while (display.hasNextLine()) {
-                    System.out.println(display.nextLine());
-                }
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
             }
