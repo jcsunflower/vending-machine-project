@@ -16,8 +16,8 @@ public class VendingMachineCLI {
     private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
     private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
     private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION};
-
-    private static final String[] FEED_MONEY_OPTIONS = {"$1", "$2", "$5","$10"};
+    private static final String ONE_DOLLAR = "$1", TWO_DOLLARS = "$2", FIVE_DOLLARS = "$5", TEN_DOLLARS = "$10";
+    private static final String[] FEED_MONEY_OPTIONS = {ONE_DOLLAR, TWO_DOLLARS, FIVE_DOLLARS,TEN_DOLLARS};
     private Menu menu;
 
     public VendingMachineCLI(Menu menu) {
