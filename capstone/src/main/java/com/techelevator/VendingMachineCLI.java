@@ -27,20 +27,24 @@ public class VendingMachineCLI {
             String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
             if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-                File items = new File("C:\\Users\\Student\\workspace\\capstone-1-team-9\\capstone\\vendingmachine.csv");
-                Scanner display = null;
-                try {
-                    display = new Scanner(items);
-                    while (display.hasNextLine()) {
-                        System.out.println(display.nextLine() + "|" + Products.productSoldOut());
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                displayItems();
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 System.out.println("Current money provided ");
                 String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
             }
+        }
+    }
+
+    public void displayItems(){
+        File items = new File("C:\\Users\\Student\\workspace\\capstone-1-team-9\\capstone\\vendingmachine.csv");
+        Scanner display = null;
+        try {
+            display = new Scanner(items);
+            while (display.hasNextLine()) {
+                System.out.println(display.nextLine() + "|" + Products.productSoldOut());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
