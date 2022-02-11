@@ -19,9 +19,11 @@ public class VendingMachineCLI {
     private static final String ONE_DOLLAR = "$1", TWO_DOLLARS = "$2", FIVE_DOLLARS = "$5", TEN_DOLLARS = "$10";
     private static final String[] FEED_MONEY_OPTIONS = {ONE_DOLLAR, TWO_DOLLARS, FIVE_DOLLARS,TEN_DOLLARS};
     private Menu menu;
+    private VendingMachine vendingMachine;
 
     public VendingMachineCLI(Menu menu) {
         this.menu = menu;
+        vendingMachine = new VendingMachine();
     }
 
     public void run() {
@@ -37,15 +39,11 @@ public class VendingMachineCLI {
     }
 
     public void displayItems(){
-        File items = new File("C:\\Users\\Student\\workspace\\capstone-1-team-9\\capstone\\vendingmachine.csv");
-        Scanner display = null;
-        try {
-            display = new Scanner(items);
-            while (display.hasNextLine()) {
-                System.out.println(display.nextLine() + "|" + Products.productSoldOut());
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        for( Products product : vendingMachine.getProducts()){
+            product.getSlot();
+            product.getName();
+            product.getPrice();
+            product.getType();
         }
     }
 
