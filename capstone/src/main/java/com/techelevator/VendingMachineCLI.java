@@ -15,8 +15,9 @@ public class VendingMachineCLI {
     private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
     private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
     private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
-    private static final String[] FEED_MONEY_OPTIONS = {"$1", "$2", "$5","$10"};
     private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION};
+
+    private static final String[] FEED_MONEY_OPTIONS = {"$1", "$2", "$5","$10"};
     private Menu menu;
 
     public VendingMachineCLI(Menu menu) {
@@ -57,6 +58,7 @@ public class VendingMachineCLI {
     }
 
     public void feedMoneyOptions(){
+        System.out.println("Please choose the amount;");
         menu.getChoiceFromOptions(FEED_MONEY_OPTIONS);
     }
 
