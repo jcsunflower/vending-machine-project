@@ -38,6 +38,7 @@ public class VendingMachineCLI {
                     e.printStackTrace();
                 }
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
+                System.out.println("Current money provided ");
                 String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
             }
         }
