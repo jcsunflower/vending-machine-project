@@ -14,6 +14,11 @@ public class VendingMachineCLI {
     private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
     private static final String MAIN_MENU_OPTION_EXIT = "Exit";
     private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT};
+
+    private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
+    private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
+    private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
+    private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION};
     private Menu menu;
     private VendingMachine vendingMachine;
 
@@ -31,13 +36,29 @@ public class VendingMachineCLI {
             if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
                 vendingMachine.displayItems();
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-                vendingMachine.purchaseOption();
-            } else if (choice.equals(MAIN_MENU_OPTION_EXIT)){
-                System.exit(0);
+                purchaseOption();
+            } else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
+                System.out.println(0);
             }
         }
     }
 
+    public void purchaseOption() {
+
+        while (true) {
+            System.out.println("Current money provided " + "$" + .getBalance());
+            String purchaseChoices = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+            if (purchaseChoices.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
+                vendingMachine.feedMoneyOption();
+            } else if (purchaseChoices.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
+                vendingMachine.selectProduct();
+            } else if(purchaseChoices.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
+                vendingMachine.finishTransaction();
+            }
+
+        }
+
+    }
 
     public static void main(String[] args) {
         Menu menu = new Menu(System.in, System.out);
