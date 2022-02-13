@@ -99,7 +99,7 @@ public class VendingMachine {
                 }else if (slot.equalsIgnoreCase("C1") || slot.equalsIgnoreCase("C2") ||
                         slot.equalsIgnoreCase("C3") || slot.equalsIgnoreCase("C4")) {
                     System.out.println(name + " " + price + " " + getBalance());
-                    System.out.println("Gluk Gluk, Yum!");
+                    System.out.println("Glug Glug, Yum!");
                 }else if (slot.equalsIgnoreCase("D1") || slot.equalsIgnoreCase("D2") ||
                         slot.equalsIgnoreCase("D3") || slot.equalsIgnoreCase("D4")) {
                     System.out.println(name + " " + price + " " + getBalance());
