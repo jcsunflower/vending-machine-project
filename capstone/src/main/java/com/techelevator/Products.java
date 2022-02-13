@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class Products {
     //Instance variables
     private String name, type, slot;
-    private static int quantity = 5;
+    private int quantity = 5;
     private BigDecimal price;
 
     //Constructor
@@ -13,7 +13,7 @@ public class Products {
         this.slot = slot;
         this.name = name;
         this.type = type;
-        this.price = price;
+        this.price = price;;
     }
 
     //Getters
@@ -33,18 +33,18 @@ public class Products {
         return this.price;
     }
 
-    //Methods
-    public void decreaseQuantity() {
-        quantity--;
+    public int getQuantity(){
+        return this.quantity;
     }
 
-    public static String productSoldOut() {
-        if (quantity == 0) {
-            return "SOLD OUT";
-        } else {
-            return Integer.toString(quantity);
-        }
+    //Methods
+    public void decreaseQuantity(Products newProduct) {
+        int newQuantity = newProduct.getQuantity() - 1;
     }
+
+
+
+
 
 
 }

@@ -12,15 +12,18 @@ public class VendingMachineCLI {
 
     private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
     private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
-    private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE};
-    public Menu menu;
+    private static final String MAIN_MENU_OPTION_EXIT = "Exit";
+    private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT};
+    private Menu menu;
     private VendingMachine vendingMachine;
 
-
+    //Constructor
     public VendingMachineCLI(Menu menu) {
         this.menu = menu;
         vendingMachine = new VendingMachine();
     }
+
+    //Methods
 
     public void run() {
         while (true) {
@@ -29,6 +32,8 @@ public class VendingMachineCLI {
                 vendingMachine.displayItems();
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 vendingMachine.purchaseOption();
+            } else if (choice.equals(MAIN_MENU_OPTION_EXIT)){
+                System.exit(0);
             }
         }
     }
