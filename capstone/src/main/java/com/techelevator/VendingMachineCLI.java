@@ -22,6 +22,7 @@ public class VendingMachineCLI {
     private Menu menu;
     private VendingMachine vendingMachine;
 
+
     //Constructor
     public VendingMachineCLI(Menu menu) {
         this.menu = menu;
@@ -46,7 +47,8 @@ public class VendingMachineCLI {
     public void purchaseOption() {
 
         while (true) {
-            System.out.println("Current money provided " + "$" + .getBalance());
+            Change change = new Change();
+            System.out.println("Current money provided " + "$" + change.getBalance());
             String purchaseChoices = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
             if (purchaseChoices.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
                 vendingMachine.feedMoneyOption();

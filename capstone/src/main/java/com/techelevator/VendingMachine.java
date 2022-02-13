@@ -14,6 +14,7 @@ public class VendingMachine {
     private Products products;
     private LogCreator log;
     private Change change;
+    private Scanner scanner = new Scanner(System.in);
 
     public VendingMachine() {
 
@@ -22,6 +23,9 @@ public class VendingMachine {
 
 
     //Methods
+    public List<Products> getProducts(){
+        return ;
+    }
     public void readAndSplitItems(){
         File items = new File("C:\\Users\\Student\\workspace\\capstone-1-team-9\\capstone\\vendingmachine.csv");
         Scanner display = null;
@@ -47,7 +51,7 @@ public class VendingMachine {
     }
 
     public void displayItems() {
-        for (Products product : getProducts()) {
+        for (Products product : products.) {
             System.out.print(product.getSlot() + " | ");
             System.out.print(product.getName() + " | ");
             System.out.print(product.getPrice() + " | ");
@@ -61,7 +65,7 @@ public class VendingMachine {
     public void feedMoneyOption() {
         System.out.println("Please choose whole amount ($1, $2, $5 or $10):");
         BigDecimal moneyInput = new BigDecimal(scanner.nextLine());
-        balance = balance.add(feedMoney(moneyInput));
+        BigDecimal changedBalance = change.getBalance().add(feedMoney(moneyInput));
     }
 
     public void selectProduct() {

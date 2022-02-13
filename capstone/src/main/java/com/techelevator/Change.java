@@ -43,7 +43,8 @@ public class Change {
                 ++nickels;
             }
         }
-
+        balance.equals(0);
+        return ("Change that you are receiving " + quarters + " quarters, " + dimes + " dimes, " + nickels + " nickels.");
     }
 
 

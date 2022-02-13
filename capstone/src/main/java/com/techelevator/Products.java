@@ -1,6 +1,7 @@
 package com.techelevator;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Products {
     //Instance variables
@@ -41,6 +42,7 @@ public class Products {
     public void decreaseQuantity(Products newProduct) {
         int newQuantity = newProduct.getQuantity() - 1;
     }
+
 
 
 
