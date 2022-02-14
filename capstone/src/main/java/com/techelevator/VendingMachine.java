@@ -11,7 +11,6 @@ public class VendingMachine {
     private LogCreator log = new LogCreator();
     private Change change = new Change();
     private List<Product> productsList = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
 
     public VendingMachine() {
         File items = new File("C:\\Users\\Student\\workspace\\capstone-1-team-9\\capstone\\vendingmachine.csv");
@@ -32,6 +31,9 @@ public class VendingMachine {
     //Getters
     public List<Product> getDisplayItems() {
         return this.productsList;
+    }
+    public BigDecimal getBalance() {
+        return change.getBalance();
     }
 
     //Methods
@@ -96,10 +98,6 @@ public class VendingMachine {
         change.resetBalance();
         log.writer(transactionType, startingBalance, getBalance());
         return result;
-    }
-
-    public BigDecimal getBalance() {
-        return change.getBalance();
     }
 
 }
