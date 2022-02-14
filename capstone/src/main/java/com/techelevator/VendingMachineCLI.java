@@ -21,6 +21,7 @@ public class VendingMachineCLI {
     private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION};
     private Menu menu;
     private VendingMachine vendingMachine;
+    private Scanner scanner = new Scanner(System.in);
 
 
     //Constructor
@@ -35,11 +36,11 @@ public class VendingMachineCLI {
         while (true) {
             String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
             if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-                vendingMachine.displayItems();
+                displayItems();
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 purchaseOption();
             } else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
-                System.out.println(0);
+                break;
             }
         }
     }
@@ -47,19 +48,35 @@ public class VendingMachineCLI {
     public void purchaseOption() {
 
         while (true) {
-            Change change = new Change();
-            System.out.println("Current money provided " + "$" + change.getBalance());
+            System.out.println("Current money provided: " + "$" + vendingMachine.getBalance());
             String purchaseChoices = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
             if (purchaseChoices.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
-                vendingMachine.feedMoneyOption();
+                System.out.println("Please choose whole amount ($1, $2, $5 or $10):");
+                BigDecimal moneyInput = new BigDecimal(scanner.nextLine());
+                vendingMachine.feedMoneyOption(moneyInput);
             } else if (purchaseChoices.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
-                vendingMachine.selectProduct();
+                displayItems();
+                System.out.println();
+                System.out.println("Please enter the product code: ");
+                String productCode = scanner.nextLine();
+                vendingMachine.selectProduct(productCode);
             } else if(purchaseChoices.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
                 vendingMachine.finishTransaction();
+                break;
             }
 
         }
 
+    }
+
+    public void displayItems() {
+        for (Product product : vendingMachine.getDisplayItems()) {
+            System.out.print(product.getSlot() + " | ");
+            System.out.print(product.getName() + " | ");
+            System.out.print(product.getPrice() + " | ");
+            System.out.print(product.getType() + " | ");
+            System.out.println(product.getQuantity());
+        }
     }
 
     public static void main(String[] args) {

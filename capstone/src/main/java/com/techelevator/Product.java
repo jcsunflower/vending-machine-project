@@ -1,16 +1,15 @@
 package com.techelevator;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-public class Products {
+public class Product {
     //Instance variables
     private String name, type, slot;
     private int quantity = 5;
     private BigDecimal price;
 
     //Constructor
-    public Products(String slot, String name,BigDecimal price,String type) {
+    public Product(String slot, String name, BigDecimal price, String type) {
         this.slot = slot;
         this.name = name;
         this.type = type;
@@ -39,8 +38,26 @@ public class Products {
     }
 
     //Methods
-    public void decreaseQuantity(Products newProduct) {
-        int newQuantity = newProduct.getQuantity() - 1;
+    public void decreaseQuantity() {
+        quantity--;
+    }
+
+    public String getNoise() {
+        String noise = "";
+
+        if (type.equals("Chip")) {
+            noise = "Crunch Crunch, Yum!";
+        }
+        else if (type.equals("Candy")) {
+            noise = "Munch Munch, Yum!";
+        }
+        else if (type.equals("Drink")) {
+            noise = "Glug Glug, Yum!";
+        }
+        else if (type.equals("Gum")) {
+            noise = "Chew Chew, Yum!";
+        }
+        return noise;
     }
 
 

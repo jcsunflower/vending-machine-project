@@ -22,8 +22,12 @@ public class Change {
         balance = balance.subtract(subtractAmount);
     }
 
-    public String returnChange(BigDecimal total){
-        BigDecimal totalChange = new BigDecimal(String.valueOf(total));
+    public void resetBalance() {
+        balance = BigDecimal.ZERO;
+    }
+
+    public String returnChange(BigDecimal currentBalance){
+        BigDecimal totalChange = new BigDecimal(String.valueOf(currentBalance));
         BigDecimal nickel = new BigDecimal("0.05");
         BigDecimal dime = new BigDecimal("0.1");
         BigDecimal quarter = new BigDecimal("0.25");
@@ -31,20 +35,19 @@ public class Change {
         int dimes = 0;
         int quarters = 0;
 
-        while(!totalChange.equals(0)){
-            if( totalChange.compareTo(quarter) >= 0 ){
+        while(totalChange.compareTo(BigDecimal.ZERO) != 0){
+            if ( totalChange.compareTo(quarter) >= 0 ){
                 totalChange = totalChange.subtract(quarter);
-                ++quarters;
+                quarters++;
             } else if (totalChange.compareTo(dime) >= 0){
                 totalChange = totalChange.subtract(dime);
-                ++dimes;
+                dimes++;
             } else if(totalChange.compareTo(nickel) >= 0){
                 totalChange = totalChange.subtract(nickel);
-                ++nickels;
+                nickels++;
             }
         }
-        balance.equals(0);
-        return ("Change that you are receiving " + quarters + " quarters, " + dimes + " dimes, " + nickels + " nickels.");
+        return "Change that you are receiving " + quarters + " quarters, " + dimes + " dimes, " + nickels + " nickels.";
     }
 
 

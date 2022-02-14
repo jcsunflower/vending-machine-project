@@ -1,7 +1,5 @@
 package com.techelevator;
 
-import com.techelevator.view.Menu;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
@@ -11,113 +9,94 @@ import java.util.*;
 
 public class VendingMachine {
 
-    private Products products;
+    private Product products;
     private LogCreator log;
-    private Change change;
+    private Change change = new Change();
+    private List<Product> productsList = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
     public VendingMachine() {
-
-    }
-
-
-
-    //Methods
-    public List<Products> getProducts(){
-        return ;
-    }
-    public void readAndSplitItems(){
         File items = new File("C:\\Users\\Student\\workspace\\capstone-1-team-9\\capstone\\vendingmachine.csv");
         Scanner display = null;
         try {
-            List<Products> productsList = new ArrayList<>();
             display = new Scanner(items);
             while (display.hasNextLine()) {
                 String productLine = display.nextLine();
                 String[] parts = productLine.split("\\|");
-                Products splitProducts = new Products(parts[0], parts[1], new BigDecimal(parts[2]), parts[3]);
+                Product splitProducts = new Product(parts[0], parts[1], new BigDecimal(parts[2]), parts[3]);
                 productsList.add(splitProducts);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-    }
-    public BigDecimal feedMoney(BigDecimal input) {
-
-        BigDecimal tempBalance = new BigDecimal("0.00");
-        tempBalance = tempBalance.add(input);
-        return tempBalance;
     }
 
-    public void displayItems() {
-        for (Products product : products.) {
-            System.out.print(product.getSlot() + " | ");
-            System.out.print(product.getName() + " | ");
-            System.out.print(product.getPrice() + " | ");
-            System.out.print(product.getType() + " | ");
-            System.out.println(product.getQuantity());
+    //Getters
+    public List<Product> getDisplayItems() {
+        return this.productsList;
+    }
 
+    //Methods
+
+//    public BigDecimal feedMoney(BigDecimal input) {
+//
+//        BigDecimal tempBalance = new BigDecimal("0.00");
+//        tempBalance = tempBalance.add(input);
+//        return tempBalance;
+//    }
+
+    public void feedMoneyOption(BigDecimal money) {
+        String transactionType = "FEED MONEY";
+        BigDecimal startBalance = getBalance();
+        if (money.compareTo(BigDecimal.ZERO) >= 0) {
+            change.addMoney(money);
+            log.writer(transactionType, startBalance, getBalance());
+        } else {
+            System.out.println("Invalid money input");
         }
-
     }
 
-    public void feedMoneyOption() {
-        System.out.println("Please choose whole amount ($1, $2, $5 or $10):");
-        BigDecimal moneyInput = new BigDecimal(scanner.nextLine());
-        BigDecimal changedBalance = change.getBalance().add(feedMoney(moneyInput));
-    }
+    public void selectProduct(String productCode) {
 
-    public void selectProduct() {
-        if (getBalance().equals("0.00")) {
-            System.out.println("Your current balance: 0, please add money for purchase");
-        }
-        displayItems();
-        System.out.println();
-        System.out.println("Please enter the product code: ");
-        String productCode = scanner.nextLine();
-
-        String slot;
-
-        for (Products product : getProducts()) {
-            slot = product.getSlot();
-            if (!slot.equalsIgnoreCase(productCode)) {
-                System.out.println("Please enter a valid code.");
-                break;
-            } else if (slot.equalsIgnoreCase(productCode)) {
-                String name = product.getName();
-                BigDecimal price = new BigDecimal(String.valueOf(product.getPrice()));
-                balance = balance.subtract(product.getPrice());
-                if (slot.equalsIgnoreCase("A1") || slot.equalsIgnoreCase("A2") ||
-                        slot.equalsIgnoreCase("A3") || slot.equalsIgnoreCase("A4")) {
-                    System.out.println(name + " " + price + " " + getBalance());
-                    System.out.println("Crunch Crunch, Yum!");
-                } else if (slot.equalsIgnoreCase("B1") || slot.equalsIgnoreCase("B2") ||
-                        slot.equalsIgnoreCase("B3") || slot.equalsIgnoreCase("B4")) {
-                    System.out.println(name + " " + price + " " + getBalance());
-                    System.out.println("Munch Munch, Yum!");
-                }else if (slot.equalsIgnoreCase("C1") || slot.equalsIgnoreCase("C2") ||
-                        slot.equalsIgnoreCase("C3") || slot.equalsIgnoreCase("C4")) {
-                    System.out.println(name + " " + price + " " + getBalance());
-                    System.out.println("Glug Glug, Yum!");
-                }else if (slot.equalsIgnoreCase("D1") || slot.equalsIgnoreCase("D2") ||
-                        slot.equalsIgnoreCase("D3") || slot.equalsIgnoreCase("D4")) {
-                    System.out.println(name + " " + price + " " + getBalance());
-                    System.out.println("Chew Chew, Yum!");
-                }
-                break;
+        BigDecimal startingBalance = getBalance();
+        Product selectedProduct = null;
+        for (Product product : this.productsList) {
+            String slot = product.getSlot();
+            if (productCode.equalsIgnoreCase(slot)) {
+                selectedProduct = product;
+                break; //We found our slot code
             }
-
-
-
+        }
+        if (selectedProduct != null) {
+            if (selectedProduct.getQuantity() > 0) {
+                if (selectedProduct.getPrice().compareTo(change.getBalance()) <= 0) {
+                    change.subtractMoney(selectedProduct.getPrice());
+                    selectedProduct.decreaseQuantity();
+                    log.writer(selectedProduct.getName(), startingBalance, getBalance());
+                    System.out.println("Item dispensed: " + selectedProduct.getName());
+                    System.out.println("Total cost: $" + selectedProduct.getPrice());
+                    System.out.println("Money remaining: $" + change.getBalance());
+                    System.out.println("Quantity Left: " + selectedProduct.getQuantity());
+                    System.out.println(selectedProduct.getNoise());
+                    System.out.println();
+                } else {
+                    System.out.println("You do not have enough money for this product");
+                }
+            } else {
+                System.out.println("This product is sold out");
+            }
+        } else {
+            System.out.println("This is not a valid product code");
         }
     }
 
-    public void finishTransaction(){
-        File logFile = new File("log.txt");
+    public void finishTransaction() {
+        change.returnChange(getBalance());
+        change.resetBalance();
+    }
 
-        String dateAndTime = new SimpleDateFormat("MM/dd/yy hh:mm:ss a").format(new Date());
-
+    public BigDecimal getBalance() {
+        return change.getBalance();
     }
 
 }
