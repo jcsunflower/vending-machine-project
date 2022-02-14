@@ -52,16 +52,25 @@ public class VendingMachineCLI {
             String purchaseChoices = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
             if (purchaseChoices.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
                 System.out.println("Please choose whole amount ($1, $2, $5 or $10):");
-                BigDecimal moneyInput = new BigDecimal(scanner.nextLine());
-                vendingMachine.feedMoneyOption(moneyInput);
+                try {
+                    BigDecimal moneyInput = new BigDecimal(scanner.nextLine());
+                    if (moneyInput.compareTo(BigDecimal.ZERO) >= 0) {
+                        vendingMachine.feedMoneyOption(moneyInput);
+                    } else {
+                        System.out.println("Cannot feed a negative amount of money");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Input is not a valid number");
+                }
+
             } else if (purchaseChoices.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
                 displayItems();
                 System.out.println();
                 System.out.println("Please enter the product code: ");
                 String productCode = scanner.nextLine();
-                vendingMachine.selectProduct(productCode);
+                System.out.println(vendingMachine.selectProduct(productCode));
             } else if(purchaseChoices.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
-                vendingMachine.finishTransaction();
+                System.out.println(vendingMachine.finishTransaction());
                 break;
             }
 

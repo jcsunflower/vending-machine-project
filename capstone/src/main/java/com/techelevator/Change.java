@@ -26,8 +26,8 @@ public class Change {
         balance = BigDecimal.ZERO;
     }
 
-    public String returnChange(BigDecimal currentBalance){
-        BigDecimal totalChange = new BigDecimal(String.valueOf(currentBalance));
+    public String returnChange(){
+        BigDecimal totalChange = balance;
         BigDecimal nickel = new BigDecimal("0.05");
         BigDecimal dime = new BigDecimal("0.1");
         BigDecimal quarter = new BigDecimal("0.25");
@@ -47,7 +47,7 @@ public class Change {
                 nickels++;
             }
         }
-        return "Change that you are receiving " + quarters + " quarters, " + dimes + " dimes, " + nickels + " nickels.";
+        return "Change that you are receiving: " + quarters + " quarters, " + dimes + " dimes, " + nickels + " nickels.";
     }
 
 

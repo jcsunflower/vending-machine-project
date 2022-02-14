@@ -3,14 +3,12 @@ package com.techelevator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
 public class VendingMachine {
 
-    private Product products;
-    private LogCreator log;
+    private LogCreator log = new LogCreator();
     private Change change = new Change();
     private List<Product> productsList = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
@@ -37,29 +35,21 @@ public class VendingMachine {
     }
 
     //Methods
-
-//    public BigDecimal feedMoney(BigDecimal input) {
-//
-//        BigDecimal tempBalance = new BigDecimal("0.00");
-//        tempBalance = tempBalance.add(input);
-//        return tempBalance;
-//    }
-
     public void feedMoneyOption(BigDecimal money) {
-        String transactionType = "FEED MONEY";
+        String transactionType = "FEED MONEY: ";
         BigDecimal startBalance = getBalance();
-        if (money.compareTo(BigDecimal.ZERO) >= 0) {
-            change.addMoney(money);
-            log.writer(transactionType, startBalance, getBalance());
-        } else {
-            System.out.println("Invalid money input");
-        }
+        change.addMoney(money);
+        log.writer(transactionType, startBalance, getBalance());
     }
 
-    public void selectProduct(String productCode) {
+    public String selectProduct(String productCode) {
 
         BigDecimal startingBalance = getBalance();
         Product selectedProduct = null;
+        String itemDispensed, getNoise, printResult;
+        int quantityLeft;
+        BigDecimal totalCost, moneyRemaining;
+
         for (Product product : this.productsList) {
             String slot = product.getSlot();
             if (productCode.equalsIgnoreCase(slot)) {
@@ -72,27 +62,40 @@ public class VendingMachine {
                 if (selectedProduct.getPrice().compareTo(change.getBalance()) <= 0) {
                     change.subtractMoney(selectedProduct.getPrice());
                     selectedProduct.decreaseQuantity();
-                    log.writer(selectedProduct.getName(), startingBalance, getBalance());
-                    System.out.println("Item dispensed: " + selectedProduct.getName());
-                    System.out.println("Total cost: $" + selectedProduct.getPrice());
-                    System.out.println("Money remaining: $" + change.getBalance());
-                    System.out.println("Quantity Left: " + selectedProduct.getQuantity());
-                    System.out.println(selectedProduct.getNoise());
-                    System.out.println();
+                    log.writer(selectedProduct.getName() + " " + selectedProduct.getSlot()
+                            , startingBalance, getBalance());
+                    itemDispensed = selectedProduct.getName();
+                    totalCost = selectedProduct.getPrice();
+                    moneyRemaining = getBalance();
+                    quantityLeft = selectedProduct.getQuantity();
+                    getNoise = selectedProduct.getNoise();
+
+                    printResult = String.format("Item dispensed: %s\n" +
+                                    "Total cost: $%s\n" +
+                                    "Money remaining: $%s\n" +
+                                    "Quantity left: %s\n" +
+                                    "%s\n", itemDispensed, totalCost, moneyRemaining,
+                            quantityLeft, getNoise);
                 } else {
-                    System.out.println("You do not have enough money for this product");
+                    printResult = "You do not have enough money for this product";
                 }
             } else {
-                System.out.println("This product is sold out");
+                printResult = "This product is sold out";
             }
         } else {
-            System.out.println("This is not a valid product code");
+            printResult = "This is not a valid product code";
         }
+        return printResult;
     }
 
-    public void finishTransaction() {
-        change.returnChange(getBalance());
+    public String finishTransaction() {
+
+        String transactionType = "GIVE CHANGE: ";
+        BigDecimal startingBalance = getBalance();
+        String result = change.returnChange();
         change.resetBalance();
+        log.writer(transactionType, startingBalance, getBalance());
+        return result;
     }
 
     public BigDecimal getBalance() {

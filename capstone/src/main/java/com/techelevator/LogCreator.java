@@ -6,23 +6,23 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class LogCreator {
 
     public void writer(String transactionType, BigDecimal startBalance, BigDecimal endBalance) {
 
-        LocalTime currentTime = LocalTime.now();
-        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");
 
         try (PrintWriter logCreator = new PrintWriter(new FileOutputStream(new File("./log.txt"), true))) {
-            String printCurrentTime = currentTime.toString().substring(0, currentTime.toString().length() - 4);
-            String printCurrentDate = currentDate.toString();
+            String printDateAndTime = dateFormatter.format(LocalDateTime.now());
             String printTransactionType = transactionType;
             String printStartBalance = startBalance.toString();
             String printEndBalance = endBalance.toString();
 
-            logCreator.println(printCurrentDate + " " + printCurrentTime + " " +
+            logCreator.println(printDateAndTime + " " +
                     printTransactionType + " $" + printStartBalance + " $" + printEndBalance);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
