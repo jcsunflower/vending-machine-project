@@ -7,6 +7,7 @@ public class Product {
     private String name, type, slot;
     private int quantity = 5;
     private BigDecimal price;
+    private int salesReportQuantity = 0;
 
     //Constructor
     public Product(String slot, String name, BigDecimal price, String type) {
@@ -37,10 +38,13 @@ public class Product {
         return this.quantity;
     }
 
+    public int getSalesReportQuantity(){ return this.salesReportQuantity;}
     //Methods
     public void decreaseQuantity() {
         quantity--;
     }
+
+    public void increaseSalesReportQuantity() { salesReportQuantity++;}
 
     public String getNoise() {
         String noise = "";

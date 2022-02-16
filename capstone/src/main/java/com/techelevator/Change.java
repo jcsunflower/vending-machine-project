@@ -4,20 +4,20 @@ import java.math.BigDecimal;
 
 public class Change {
 
-    //Instance variable
     private BigDecimal balance = new BigDecimal("0");
 
-    //Constructor
+    private BigDecimal salesReportBalance = new BigDecimal("0");
+
     public Change() {
         this.balance = balance;
     }
 
-    //Getter
     public BigDecimal getBalance(){
         return balance;
     }
 
-    //Methods
+    public BigDecimal getSalesReportBalance(){ return salesReportBalance; }
+
     public void addMoney(BigDecimal addAmount ){
         balance = balance.add(addAmount);
     }
@@ -26,9 +26,12 @@ public class Change {
         balance = balance.subtract(subtractAmount);
     }
 
+    public void addMoneyToSalesReportBalance(BigDecimal addMoneySr){salesReportBalance.add(addMoneySr);}
+
     public void resetBalance() {
         balance = BigDecimal.ZERO;
     }
+
 
     public String returnChange(){
         BigDecimal totalChange = balance;

@@ -28,5 +28,20 @@ public class LogCreator {
             e.printStackTrace();
         }
     }
+
+    public void salesReportWriter(Product product, int salesReportQuantity, BigDecimal finalTransactionAmount) {
+        try (PrintWriter salesReport = new PrintWriter(new PrintWriter(new FileOutputStream("./salesReport.txt")))) {
+            VendingMachine vm = new VendingMachine();
+            int printSalesReportQuantity = salesReportQuantity;
+            BigDecimal printFinalTransactionAmount = finalTransactionAmount;
+            for(Product newProduct : vm.getDisplayItems() ) {
+                String productName = newProduct.getName();
+                salesReport.println(productName + "|" + printSalesReportQuantity);
+            }
+            salesReport.println("TOTAL SALES: " + printFinalTransactionAmount);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

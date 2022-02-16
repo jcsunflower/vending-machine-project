@@ -13,7 +13,8 @@ public class VendingMachineCLI {
     private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
     private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
     private static final String MAIN_MENU_OPTION_EXIT = "Exit";
-    private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT};
+    private static final String MAIN_MENU_OPTION_WRITE_SALES_REPORT = "";
+    private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT,MAIN_MENU_OPTION_WRITE_SALES_REPORT};
 
     private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
     private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
@@ -41,6 +42,9 @@ public class VendingMachineCLI {
                 purchaseOption();
             } else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
                 break;
+
+            } else if(choice.equals(MAIN_MENU_OPTION_WRITE_SALES_REPORT)){
+                printSalesReport();
             }
         }
     }
@@ -54,13 +58,13 @@ public class VendingMachineCLI {
                 System.out.println("Please choose whole amount ($1, $2, $5 or $10):");
                 try {
                     BigDecimal moneyInput = new BigDecimal(scanner.nextLine());
-                    if (moneyInput.compareTo(BigDecimal.ZERO) > 0) {
+                    if (moneyInput.compareTo(BigDecimal.ZERO) >= 0) {
                         vendingMachine.feedMoneyOption(moneyInput);
                     } else {
-                        System.out.println("Cannot feed the inputted amount of money.");
+                        System.out.println("Cannot feed a negative amount of money");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Input is not a valid number.");
+                    System.out.println("Input is not a valid number");
                 }
 
             } else if (purchaseChoices.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
@@ -86,6 +90,10 @@ public class VendingMachineCLI {
             System.out.print(product.getType() + " | ");
             System.out.println(product.getQuantity());
         }
+    }
+
+    public void printSalesReport(){
+        vendingMachine.createSalesReport();
     }
 
     public static void main(String[] args) {

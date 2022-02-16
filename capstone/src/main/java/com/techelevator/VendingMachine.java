@@ -11,7 +11,7 @@ public class VendingMachine {
     private LogCreator log = new LogCreator();
     private Change change = new Change();
     private List<Product> productsList = new ArrayList<>();
-
+    private Scanner scanner = new Scanner(System.in);
     public VendingMachine() {
         File items = new File("C:\\Users\\Student\\workspace\\capstone-1-team-9\\capstone\\vendingmachine.csv");
         Scanner display = null;
@@ -31,9 +31,6 @@ public class VendingMachine {
     //Getters
     public List<Product> getDisplayItems() {
         return this.productsList;
-    }
-    public BigDecimal getBalance() {
-        return change.getBalance();
     }
 
     //Methods
@@ -63,7 +60,9 @@ public class VendingMachine {
             if (selectedProduct.getQuantity() > 0) {
                 if (selectedProduct.getPrice().compareTo(change.getBalance()) <= 0) {
                     change.subtractMoney(selectedProduct.getPrice());
+                    change.addMoneyToSalesReportBalance(selectedProduct.getPrice());
                     selectedProduct.decreaseQuantity();
+                    selectedProduct.increaseSalesReportQuantity();
                     log.writer(selectedProduct.getName() + " " + selectedProduct.getSlot()
                             , startingBalance, getBalance());
                     itemDispensed = selectedProduct.getName();
@@ -71,13 +70,13 @@ public class VendingMachine {
                     moneyRemaining = getBalance();
                     quantityLeft = selectedProduct.getQuantity();
                     getNoise = selectedProduct.getNoise();
-
                     printResult = String.format("Item dispensed: %s\n" +
                                     "Total cost: $%s\n" +
                                     "Money remaining: $%s\n" +
                                     "Quantity left: %s\n" +
                                     "%s\n", itemDispensed, totalCost, moneyRemaining,
                             quantityLeft, getNoise);
+
                 } else {
                     printResult = "You do not have enough money for this product";
                 }
@@ -99,5 +98,17 @@ public class VendingMachine {
         log.writer(transactionType, startingBalance, getBalance());
         return result;
     }
+
+    public BigDecimal getBalance() {return change.getBalance();}
+
+    public void createSalesReport(){
+        for(Product product : productsList ){
+            int quantity = product.getSalesReportQuantity();
+            BigDecimal sReportBalance = change.getSalesReportBalance();
+            log.salesReportWriter(product,quantity,sReportBalance);
+        }
+
+    }
+
 
 }
